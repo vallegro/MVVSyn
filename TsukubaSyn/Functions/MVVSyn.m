@@ -25,8 +25,8 @@ for i = seq_start:seq_end,
     im_r = double(imread(im_r_name));
     im_l = double(imread(im_l_name));        
     
-    for zpos = 3:zpos_num,
-        for xpos = 3:xpos_num,
+    for zpos = 1:zpos_num,
+        for xpos = 1:xpos_num,
             di_7_name = sprintf('Di_%05d_v%02d_z%02d.pgm',i,xpos,zpos);
             di_t_7_name = sprintf('Di_t_%05d_v%02d_z%02d.ppm',i,xpos,zpos);
             im_7_name = sprintf('Im_%05d_v%02d_z%02d.ppm',i,xpos,zpos);

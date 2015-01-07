@@ -1,27 +1,33 @@
-function [im, di, di_t] = mergeDIBR(im_from_l, di_from_l, di_t_from_l, ...
-                                    im_from_r, di_from_r, di_t_from_r)
+function [ im, di, di_t ] = mergeDIBR( im_from_l, di_from_l, di_t_from_l, ...
+                                       im_from_m, di_from_m, di_t_from_m, ...
+                                       im_from_r, di_from_r, di_t_from_r, ...
+                                       xpos_l, xpos_m, xpos_r, xpos_v)
 %MERGEDIBR Summary of this function goes here
 %   Detailed explanation goes here
-    im_size = size(im_from_l);
-    im = zeros(im_size);
-
-    di_size = size(di_from_l);
-    di = zeros(di_size);
-    di_t = zeros(di_size);
+    if xpos_v>=xpos_l && xpos_v<=xpos_m,
+        mid_pos = (xpos_l + xpos_m)/2;
+        if xpos_v< mid_pos,
+            main = 1;
+        else
+            main = 2;
+        end
+        [im, di, di_t] = merge(im_from_l, di_from_l, di_t_from_l, ...
+                               im_from_m, di_from_m, di_t_from_m, main);
+        [im, di, di_t] = merge(im, di, di_t, ...
+                               im_from_r, di_from_r, di_t_from_r, 1);                   
+            
+    elseif xpos_v>xpos_m && xpos_v<=xpos_r,
+        mid_pos = (xpos_m + xpos_r)/2;        
+        if xpos_v<= mid_pos,
+            main = 1;
+        else
+            main = 2;
+        end
+        [im, di, di_t] = merge(im_from_m, di_from_m, di_t_from_m, ...
+                               im_from_r, di_from_r, di_t_from_r, main);
+        [im, di, di_t] = merge(im, di, di_t, ...
+                               im_from_l, di_from_l, di_t_from_l, 1); 
+    end
     
-    l_ne = di_from_l>=di_from_r;  %pixel generated from left view is closer(or equal) 
-    l_f = di_from_l <di_from_r;   %pixel generated from right view is closer
-    
-    di(l_ne) = di_from_l(l_ne);
-    di(l_f) = di_from_r(l_f);
-    
-    di_t(l_ne) = di_t_from_l(l_ne);
-    di_t(l_f) = di_t_from_r(l_f);
-    
-    l_ne_c = [l_ne,l_ne,l_ne];
-    l_f_c = [l_f,l_f,l_f];
-    
-    im(l_ne_c) = im_from_l(l_ne_c);
-    im(l_f_c) = im_from_r(l_f_c);
 end
 

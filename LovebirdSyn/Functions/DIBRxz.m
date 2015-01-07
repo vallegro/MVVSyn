@@ -32,7 +32,7 @@ function [ im_vir, di_vir, di_vir_t ] = DIBRxz(dX, dZ, im_ref_sr, di_ref_sr, SR_
     end
     
     if dZ==0,
-        [im_vir_sr, di_vir_sr, di_vir_t_sr] = Erode( im_vir_sr, di_vir_sr, di_vir_t_sr ,1);
+        [im_vir_sr, di_vir_sr, di_vir_t_sr] = Erode( im_vir_sr, di_vir_sr, di_vir_t_sr ,2);
         [im_vir , di_vir, di_vir_t] = DiDownSample(im_vir_sr, di_vir_sr, di_vir_t_sr, SR_f);
     else
         [im_vir , di_vir, di_vir_t] = DiDownSample(im_vir_sr, di_vir_sr, di_vir_t_sr, SR_f);
