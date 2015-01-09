@@ -7,7 +7,8 @@ num = num-1;
 
 for y=1:seq_size(1);
     status=1;
-    for x=1:seq_size(2);
+    x=1;
+    while x<=seq_size(2);
         if di(y,x)==0&&status==1;
             status=0;
             beginning=x-1;
@@ -21,38 +22,33 @@ for y=1:seq_size(1);
             ending=x+1;
         end
         if status==2;
-            if beginning==0,
-                begindisp=Inf;
-            else
-                begindisp=di(y,beginning);
-            end
             
             if ending==seq_size(2)+1,
-                endingdisp=Inf;
                 ending=seq_size(2);
-            else
-                endingdisp=di(y,ending);
             end
             
-            if endingdisp<=begindisp,
-                back=ending:min(ending+1,seq_size(2));
-                di(y,back) = 0;
-                di_t(y,back) = 0;
-                im(y,back,1:3) = 0;
-            else
-                back=max(1,beginning-num):beginning;
-                di(y,back) = 0;
-                di_t(y,back) = 0;
-                im(y,back,1:3) = 0;
-            end
+            ending=ending:min(ending+1,seq_size(2));
+            di(y,ending) = 0;
+            di_t(y,ending) = 0;
+            im(y,ending,1:3) = 0;
+            
+            beginning=max(1,beginning-num):beginning;
+            di(y,beginning) = 0;
+            di_t(y,beginning) = 0;
+            im(y,beginning,1:3) = 0;
+            
+            x = max(ending);
+            
             status=1;
         end
+        x=x+1;
     end
 end
 
 for x=1:seq_size(2);
     status=1;
-    for y=1:seq_size(1);
+    y=1;
+    while y<=seq_size(1);
         if di(y,x)==0&&status==1;
             status=0;
             beginning=y-1;
@@ -65,33 +61,26 @@ for x=1:seq_size(2);
             status=2;
             ending=y+1;
         end
-        if status==2;
-            if beginning==0,
-                begindisp=Inf;
-            else
-                begindisp=di(beginning,x);
-            end
-            
+        if status==2;          
             if ending==seq_size(1)+1,
-                endingdisp=Inf;
                 ending=seq_size(1);
-            else
-                endingdisp=di(ending,x);
-            end
+            end           
             
-            if endingdisp<=begindisp,
-                back=ending:min(ending+1,seq_size(1));
-                di(back,x) = 0;
-                di_t(back,x) = 0;
-                im(back,x,1:3) = 0;
-            else
-                back=max(1,beginning-num):beginning;
-                di(back,x) = 0;
-                di_t(back,x) = 0;
-                im(back,x,1:3) = 0;
-            end
+            ending=ending:min(ending+1,seq_size(1));
+            di(ending,x) = 0;
+            di_t(ending,x) = 0;
+            im(ending,x,1:3) = 0;
+            
+            beginning=max(1,beginning-num):beginning;
+            di(beginning,x) = 0;
+            di_t(beginning,x) = 0;
+            im(beginning,x,1:3) = 0;
+            
+            y = max(ending);            
+            
             status=1;
         end
+        y=y+1;
     end
 end
 
